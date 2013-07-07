@@ -9,4 +9,5 @@ mapping = {}
 # the following mappings can be ommited:
 # mapping['/'] = 'app.html' (when app.html is homepage)
 # mapping['/doc'] = '/doc.html'
+# mapping['/about/us'] = '/about/us'
 # mapping['/abount/licence'] = '/about/licence.html'

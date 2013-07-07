@@ -1,44 +1,42 @@
-import sys, socket, time
+import socket
 from config import *
 from header import *
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-HOST = inet_addr
-PORT = 80
+class TCP_server(object):
+    def __init__(self, host, port=80):
+        self.host = host
+        self.port = port
+        self.socket= socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.socket.bind((self.host, self.port))
+        self.socket.listen(1)
 
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-s.bind((HOST, PORT))
-s.listen(1)
-
-def main():
-    header = ''
-    while True:
-        print 'Columbus http server, started at %s on port %d' % (HOST, PORT)
-        sc, sockname = s.accept()
+    def accept_connection(self):
+        print 'Columbus http server, listening at %s on port %d' \
+                   % (self.host, self.port)
+        self.sc, sockname = self.socket.accept()
         print 'connected from', sockname
-        print 'soket connects', sc.getsockname(), 'and', sc.getpeername()
-        header_time_s = time.time()
-        while True:
-            header_time = time.time()
-            t_time = header_time - header_time_s
-            if t_time > 10:
-                break
-            message = sc.recv(16)
-            header += message
-            print message
-            if ('\r\n\r\n' in header) or (message == ''):
-                break
-        print 'the http header is ', repr(header)
+        print 'socket connects', self.sc.getsockname(), 'and', self.sc.getpeername()
 
-        http_method, page_file, http_version = header_p(header)
+    def listen(self):
+        header = ''
+        while True:
+            message = self.sc.recv(16)
+            header += message
+            if ('\r\n\r\n' in header):
+                return header
+
+    def respond(self, header_obj):
+        http_method = header_obj.http_method()
+        page = header_obj.page()
+        response_header = header_obj.response_header()
+
+        self.sc.sendall(response_header)
 
         if http_method == 'GET':
-            sc.sendall(page_file)
+            self.sc.sendall(page)
         else:
-            sc.sendall("[COLUMBUS] sorry, currently http method %s\
+            self.sc.sendall("[COLUMBUS] sorry, currently http method %s\
  is not supported" % http_method)
-        sc.close()
-        print 'socket is closed'
-
-if __name__ == '__main__':
-    main()
+        self.sc.close()
+        return
