@@ -18,12 +18,13 @@ class TCP_server(object):
         print 'connected from', sockname
         print 'socket connects', self.sc.getsockname(), 'and', self.sc.getpeername()
 
-    def listen(self):
+    def listen(self, size=16):
         header = ''
         while True:
-            message = self.sc.recv(16)
+            message = self.sc.recv(size)
             header += message
-            if ('\r\n\r\n' in header):
+
+            if '\r\n\r\n' in header:
                 return header
 
     def respond(self, header_obj):
@@ -35,7 +36,7 @@ class TCP_server(object):
 
         if http_method == 'GET':
             self.sc.sendall(page)
-        else:
+        elif http_method != 'POST':
             self.sc.sendall("[COLUMBUS] sorry, currently http method %s\
  is not supported" % http_method)
         self.sc.close()
