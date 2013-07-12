@@ -2,9 +2,11 @@ from header import *
 from config import *
 from tcp import *
 from database import *
+from ssl_server import *
 
 def main():
-    server = TCP_server(inet_addr)
+    # server = TCP_server(inet_addr)
+    server = SSL_server(inet_addr)
 
     while True:
         server.accept_connection()

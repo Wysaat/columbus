@@ -31,6 +31,6 @@ db_name = 'expdb'
 user_name = 'user'
 
 # configuration for ssl
-ssl_port = 443
+ssl_port = 4000
 ssl_certfile = '/home/user/webpages/cert.pem'
 ssl_keyfile = '/home/user/webpages/cert.pem'
