@@ -29,3 +29,8 @@ db_type = 'mysql'
 db_passwd = ''
 db_name = 'expdb'
 user_name = 'user'
+
+# configuration for ssl
+ssl_port = 443
+ssl_certfile = '/home/user/webpages/cert.pem'
+ssl_keyfile = '/home/user/webpages/cert.pem'
