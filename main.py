@@ -5,30 +5,41 @@ from database import *
 from ssl_server import *
 
 def main():
-    # server = TCP_server(inet_addr)
-    server = SSL_server(inet_addr)
+    if HTTPS:
+        server = SSL_server(inet_addr)
+    else:
+        server = TCP_server(inet_addr)
 
     while True:
         server.accept_connection()
         print '[DEBUG]000000000000000000000000000000000000000000'
         header = server.listen()
         print header
-        header = Header(header)
+        try:
+            header = Header(header)
+        except:
+            continue
 
         if header.http_method() == 'POST':
             content_length = header.content_length()
+            print '[DEBUG]content length........................'
+            # content = server.sc.recv(content_length)
             content = server.sc.recv(content_length)
             print repr(content)
 
             data = get_data(header.content_first_part() + content)
 
             db = Database()
+            print 'transferring data...'
             db.execute(header.db_table(), header.db_action(), data)
             db.close()
 
         print '[DEBUG]------------------------------------------'
         server.respond(header)
         print '[DEBUG]222222222222222222222222222222222222222222'
+
+        if not HTTPS and header.relative_url() in https:
+            server = SSL_server(inet_addr, 80)
 
 def get_data(content):
     data = []

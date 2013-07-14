@@ -19,6 +19,8 @@ class Header(object):
 
     def relative_url(self):
         relative_url = self.lines[0][1]
+        if relative_url != '/' and relative_url.endswith('/'):
+            relative_url = relative_url.rstrip('/')
         return relative_url
 
     def http_version(self):

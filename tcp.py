@@ -26,6 +26,8 @@ class TCP_server(object):
 
             if '\r\n\r\n' in header:
                 return header
+            if len(message) == 0:
+                return header
 
     def respond(self, header_obj):
         http_method = header_obj.http_method()

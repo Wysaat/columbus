@@ -1,6 +1,7 @@
 inet_addr = "192.168.233.128"
 path = '/home/user/webpages' 
 homepage = 'app.html'
+HTTPS = False
 
 # mapping urls to relative pathes
 mapping = {}
@@ -23,6 +24,10 @@ redirect = {}
 
 redirect['/form/old/create/0'] = '/form/success'
 redirect['/form/young/create/0'] = '/form/success'
+
+##########################################################
+https = []
+https.append('/form')
 
 # database configuration
 db_type = 'mysql'

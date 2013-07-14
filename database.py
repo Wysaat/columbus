@@ -17,7 +17,7 @@ class Database(object):
             except:
                 print "[fatal] can't connect to the database\n"
         else:
-            print "[columbus] sorry this database type %s is currently not supported\n" \
+            print "[columbus] DATABASE: sorry this database type %s is currently not supported\n" \
                        % self.db_type
 
     def execute(self, table, action, data):
@@ -26,7 +26,7 @@ class Database(object):
             cur.execute("insert into %s values %s" % (table, repr(tuple(data))))
             self.con.commit()
         else:
-            print "[columbus] this action %s is currrently not supported\n" % action
+            print "[columbus] DATABASE: this action %s is currrently not supported\n" % action
 
     def close(self):
         self.con.close()
