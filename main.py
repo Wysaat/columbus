@@ -27,19 +27,24 @@ def main():
             content = server.sc.recv(content_length)
             print repr(content)
 
-            data = get_data(header.content_first_part() + content)
-
-            db = Database()
-            print 'transferring data...'
-            db.execute(header.db_table(), header.db_action(), data)
-            db.close()
+            total_content = header.content_first_part() + content
+            data = get_data(total_content)
+            
+            if proc[header.relative_url()] == "database":
+                db = Database()
+                print 'transferring data...'
+                db.execute(header.db_table(), header.db_action(), data)
+                db.close()
+            else:
+                method = proc[header.relative_url()]
+                method(data)
 
         print '[DEBUG]------------------------------------------'
         server.respond(header)
         print '[DEBUG]222222222222222222222222222222222222222222'
 
-        if not HTTPS and header.relative_url() in https:
-            server = SSL_server(inet_addr, 80)
+        # if not HTTPS and header.relative_url() in https:
+        #     server = SSL_server(inet_addr, 80)
 
 def get_data(content):
     data = []

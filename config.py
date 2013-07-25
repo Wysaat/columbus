@@ -1,4 +1,9 @@
-inet_addr = "192.168.233.128"
+import time
+import utils
+from config_methods import *
+
+# inet_addr = "192.168.233.128"
+inet_addr = "114.212.135.187"
 path = '/home/user/webpages' 
 homepage = 'app.html'
 HTTPS = False
@@ -39,3 +44,25 @@ user_name = 'user'
 ssl_port = 4000
 ssl_certfile = '/home/user/webpages/cert.pem'
 ssl_keyfile = '/home/user/webpages/cert.pem'
+
+# configuration for cookies setting
+def cookie(name, value, tlength, path='/', domain=inet_addr):
+    t = utils.gettime(tlength).split()
+    expires = t[0] + ', ' + t[2] + ' ' + t[1] + ' ' + t[-1] + ' ' + t[-2] + ' GMT'
+
+    cookie = name + '=' + value + '; ' + 'expires=' + expires + '; ' \
+           + 'path=' + path + '; ' + 'domain=' + domain
+    return cookie
+
+cookies = {}
+
+cookies['/'] = []
+cookies['/'].append(cookie("rmk", "4EWrq!$RF^4#@!0pfsf@%!^^%//fasrsawqrfdd", 2))
+
+
+# configuration for dealing with the posted data
+# the methods are defined by user in config_methods.py
+proc = {}
+proc['/form/old/create/0'] = 'database'
+proc['/form/young/create/0'] = 'database'
+proc['/newqrcode.png'] = qrcode

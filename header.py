@@ -60,6 +60,13 @@ class Header(object):
                              + self.response_status_code + CRLF
             response_header += "Location:" + ' ' + self.redirect_url() + CRLF
 
+        print 'self.relative_url() is: ', self.relative_url()
+        print 'cookies is: ', cookies
+        if self.relative_url() in cookies:
+            print 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC'
+            for cookie in cookies[self.relative_url()]:
+                response_header += "Set-Cookie:" + ' ' + cookie + CRLF
+
         response_header += CRLF
         return response_header
 
@@ -73,14 +80,14 @@ class Header(object):
         return None
 
     def db_table(self):
-        if self.http_method() == 'POST':
+        if self.http_method() == 'POST' & proc[self.relative_url()] == 'database':
             ####### ....split('/')[0] is ''!!!!! #######
             db_table = self.relative_url().split('/')[2]
             return db_table
         return None
 
     def db_action(self):
-        if self.http_method() == 'POST':
+        if self.http_method() == 'POST' & proc[self.relative_url()] == 'database':
             db_action = self.relative_url().split('/')[3]
             return db_action
         return None
