@@ -2,8 +2,7 @@ import time
 import utils
 from config_methods import *
 
-# inet_addr = "192.168.233.128"
-inet_addr = "114.212.135.187"
+inet_addr = "192.168.233.128"
 path = '/home/user/webpages' 
 homepage = 'app.html'
 HTTPS = False

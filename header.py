@@ -54,7 +54,7 @@ class Header(object):
                              + "Content-Type:" + ' ' + content_type + CRLF \
                              + "Content-Length:" + ' ' + str(content_length) + CRLF
 
-        if self.http_method() == 'POST':
+        if self.http_method() == 'POST' and proc[self.relative_url()] == 'database':
             self.response_status_code = '302 Found'
             response_header  = self.http_version() + ' ' \
                              + self.response_status_code + CRLF
@@ -71,7 +71,7 @@ class Header(object):
         return response_header
 
     def redirect_url(self):
-        if self.http_method() == 'POST':
+        if self.http_method() == 'POST' and proc[self.relative_url()] == 'database':
             print
             print self.relative_url()
             print
@@ -80,14 +80,14 @@ class Header(object):
         return None
 
     def db_table(self):
-        if self.http_method() == 'POST' & proc[self.relative_url()] == 'database':
+        if self.http_method() == 'POST' and proc[self.relative_url()] == 'database':
             ####### ....split('/')[0] is ''!!!!! #######
             db_table = self.relative_url().split('/')[2]
             return db_table
         return None
 
     def db_action(self):
-        if self.http_method() == 'POST' & proc[self.relative_url()] == 'database':
+        if self.http_method() == 'POST' and proc[self.relative_url()] == 'database':
             db_action = self.relative_url().split('/')[3]
             return db_action
         return None
